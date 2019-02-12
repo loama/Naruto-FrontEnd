@@ -3,13 +3,12 @@
     {{searchQuery}}
 
     <div id="characterModal"
-         v-bind:class="{active: selectedCharacter !== ''}"
+         v-bind:class="{active: this.$route.query.character !== undefined}"
          v-html="selectedCharacter.html_content">
-      {{selectedCharacter}}
     </div>
     <div id="modalOverlay"
-         v-on:click="selectedCharacter = ''"
-         v-bind:class="{active: selectedCharacter !== ''}">
+         v-on:click="closeModal()"
+         v-bind:class="{active: this.$route.query.character !== undefined}">
     </div>
 
     <ul>
@@ -24,6 +23,7 @@
 </template>
 
 <script>
+import router from '../router'
 import axios from 'axios'
 
 const baseUrl = 'https://naruto-api-prod.herokuapp.com/v1/'
@@ -42,9 +42,14 @@ export default {
     }
   },
   methods: {
+    closeModal () {
+      router.push({ path: '/', query: {} })
+      self.selectedCharacter = {}
+    },
     openModal (title) {
       let self = this
       let encodedTitle = encodeURIComponent(title)
+      router.push({ path: '/', query: { character: title } })
       axios.get(baseUrl + 'characters/' + encodedTitle)
         .then(function (response) {
           self.selectedCharacter = response.data.data
@@ -66,6 +71,7 @@ export default {
   },
   mounted () {
     this.fetchCharacters()
+    console.log(this.$route.query.character)
   }
 }
 </script>
@@ -74,19 +80,19 @@ export default {
 <style lang="sass" scoped>
   ul
     list-style: none
-    max-height: calc(100vh - 80px)
-    overflow-y: scroll
     padding-top: 16px
 
     li
       cursor: pointer
 
   #characterModal
-    position: absolute
+    position: fixed
     z-index: 11
-    top: -100vh
+    bottom: -100vh
     left: calc(10vw)
     min-height: 320px
+    max-height: calc(100vh - 80px)
+    overflow-y: scroll
     width: 80vw
     max-width: 1000px
     background: #FFFFFF
@@ -94,7 +100,7 @@ export default {
     transition: all 0.2s
 
     &.active
-      transform: translate3d(0, calc(100vh - 80px), 0)
+      transform: translate3d(0, calc(-100vh), 0)
 
   #modalOverlay
     position: fixed
