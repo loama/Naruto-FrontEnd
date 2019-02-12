@@ -13,7 +13,7 @@
 
     <ul>
       <li v-on:click="openModal(c.title)"
-          v-for="c in characters"
+          v-for="c in filteredCharacters"
           v-bind:key="c.id">
         {{c.title}}
       </li>
@@ -33,6 +33,15 @@ export default {
   computed: {
     searchQuery () {
       return this.$store.state.searchQuery
+    },
+    filteredCharacters () {
+      let characters = []
+      for (let i = 0; i < this.characters.length; i++) {
+        if (this.characters[i]['title'].includes(this.searchQuery)) {
+          characters.push(this.characters[i])
+        }
+      }
+      return characters
     }
   },
   data () {
@@ -71,7 +80,9 @@ export default {
   },
   mounted () {
     this.fetchCharacters()
-    console.log(this.$route.query.character)
+    if (this.$route.query.character !== undefined) {
+      this.openModal(this.$route.query.character)
+    }
   }
 }
 </script>
