@@ -11,13 +11,18 @@
          v-bind:class="{active: this.$route.query.character !== undefined}">
     </div>
 
-    <ul>
-      <li v-on:click="openModal(c.title)"
-          v-for="c in filteredCharacters"
-          v-bind:key="c.id">
-        {{c.title}}
-      </li>
-    </ul>
+    <div class="section"
+         v-for="(section, key) in characters">
+      <div class="title">{{key}}</div>
+      <ul>
+        <li v-on:click="openModal(c.title)"
+            v-for="c in section"
+            v-bind:key="c.id">
+          <img v-bind:src="c.thumbnail">
+          <div class="title"> {{c.title}} </div>
+        </li>
+      </ul>
+    </div>
 
   </div>
 </template>
@@ -46,7 +51,36 @@ export default {
   },
   data () {
     return {
-      characters: [],
+      alphabet: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+      characters: {
+        a: [],
+        b: [],
+        c: [],
+        d: [],
+        e: [],
+        f: [],
+        g: [],
+        h: [],
+        i: [],
+        j: [],
+        k: [],
+        l: [],
+        m: [],
+        n: [],
+        o: [],
+        p: [],
+        q: [],
+        r: [],
+        s: [],
+        t: [],
+        u: [],
+        v: [],
+        w: [],
+        x: [],
+        y: [],
+        z: [],
+        other: []
+      },
       selectedCharacter: ''
     }
   },
@@ -71,7 +105,15 @@ export default {
       let self = this
       axios.get(baseUrl + 'characters')
         .then(function (response) {
-          self.characters = response.data.data
+          let characters = response.data.data
+          for (var i = 0; i < characters.length; i++) {
+            let section = characters[i]['title'].charAt(0).toLowerCase()
+            if (self.alphabet.includes(section.toUpperCase())) {
+              self.characters[section].push(characters[i])
+            } else {
+              self.characters['other'].push(characters[i])
+            }
+          }
         })
         .catch(function (error) {
           console.log(error)
@@ -89,46 +131,80 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
-  ul
-    list-style: none
-    padding-top: 16px
+  .charactersList
+    padding-top: 24px
 
-    li
-      cursor: pointer
-
-  #characterModal
-    position: fixed
-    z-index: 11
-    bottom: -100vh
-    left: calc(10vw)
-    min-height: 320px
-    max-height: calc(100vh - 80px)
-    overflow-y: scroll
-    width: 80vw
-    max-width: 1000px
-    background: #FFFFFF
-    border: 1px solid #D0D0D0
-    transition: all 0.2s
-
-    &.active
-      transform: translate3d(0, calc(-100vh), 0)
-
-  #modalOverlay
-    position: fixed
-    z-index: 10
-    top: 0
-    left: 0
-    height: 100vh
-    width: 100vw
-    background: #000000
-    opacity: 0.8
-    display: none
-
-    &.active
-      display: block
-
-
-  @media screen and (min-width: 1250px)
     #characterModal
-      left: calc(50vw - 500px)
+      position: fixed
+      z-index: 11
+      bottom: -100vh
+      left: calc(10vw)
+      min-height: 320px
+      max-height: calc(100vh - 80px)
+      overflow-y: scroll
+      width: 80vw
+      max-width: 1000px
+      background: #FFFFFF
+      border: 1px solid #D0D0D0
+      transition: all 0.2s
+
+      &.active
+        transform: translate3d(0, calc(-100vh), 0)
+
+    #modalOverlay
+      position: fixed
+      z-index: 10
+      top: 0
+      left: 0
+      height: 100vh
+      width: 100vw
+      background: #000000
+      opacity: 0.8
+      display: none
+
+      &.active
+        display: block
+
+    .section
+      > .title
+        position: sticky
+        top: 56px
+        line-height: 56px
+        font-size: 20px
+        font-weight: 600
+        z-index: 9
+        text-transform: uppercase
+
+      ul
+        width: 100%
+        padding-left: 0
+        list-style: none
+        text-align: center
+
+        li
+          position: relative
+          cursor: pointer
+          border: 1px solid #E0E0E0
+          width: 320px
+          margin-left: calc(50% - 160px)
+          height: 48px
+          line-height: 48px
+          margin-bottom: -1px
+
+          &:hover
+            background: #F0F0F0
+
+          img
+            position: absolute
+            top: 8px
+            left: 8px
+
+          .title
+            position: absolute
+            top: 0
+            left: 64px
+
+    @media screen and (min-width: 1250px)
+      #characterModal
+        left: calc(50vw - 500px)
 </style>
