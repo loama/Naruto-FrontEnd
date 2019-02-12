@@ -1,6 +1,7 @@
 <template>
   <div class="charactersList">
     {{searchQuery}}
+    {{selectedCharacter}}
     <ul>
       <li v-on:click="openModal(c.title)"
           v-for="c in characters"
@@ -29,15 +30,12 @@ export default {
       selectedCharacter: null
     }
   },
-  props: {
-    msg: String
-  },
   methods: {
     openModal (title) {
+      let self = this
       let encodedTitle = encodeURIComponent(title)
       axios.get(baseUrl + 'characters/' + encodedTitle)
         .then(function (response) {
-          console.log(response.data.data)
           self.selectedCharacter = response.data.data
         })
         .catch(function (error) {
