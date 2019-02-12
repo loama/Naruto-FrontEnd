@@ -1,5 +1,6 @@
 # Naruto FrontEnd
 VueJS project consuming the [Naruto API](https://github.com/loama/Naruto-API)
+Live on https://naruto-characters.firebaseapp.com/
 
 ## Project setup
 ```
