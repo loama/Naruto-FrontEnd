@@ -1,4 +1,5 @@
-# naruto-frontend
+# Naruto FrontEnd
+VueJS project consuming the [Naruto API](https://github.com/loama/Naruto-API)
 
 ## Project setup
 ```

@@ -12,6 +12,7 @@
     </div>
 
     <div class="section"
+         v-bind:key="key"
          v-for="(section, key) in characters">
       <div class="title">{{key}}</div>
       <ul>
@@ -95,7 +96,26 @@ export default {
       router.push({ path: '/', query: { character: title } })
       axios.get(baseUrl + 'characters/' + encodedTitle)
         .then(function (response) {
-          self.selectedCharacter = response.data.data
+          self.selectedCharacter = {
+            thumbnail: response.data.data.thumbnail,
+            html_content: response.data.data.html_content
+          }
+
+          var modal = document.getElementById('characterModal')
+          var images = modal.getElementsByTagName('img')
+
+          var imageLink
+          if (images[2] !== undefined) {
+            imageLink = images[2].attributes['data-src'].nodeValue || ''
+          } else {
+            imageLink = ''
+          }
+
+          self.selectedCharacter = {
+            thumbnail: response.data.data.thumbnail,
+            html_content: /* '<img src="' + imageLink + '" class="mainImage">' + */ response.data.data.html_content
+          }
+
         })
         .catch(function (error) {
           console.log(error)
@@ -147,6 +167,7 @@ export default {
       background: #FFFFFF
       border: 1px solid #D0D0D0
       transition: all 0.2s
+      padding-left: 16px
 
       &.active
         transform: translate3d(0, calc(-100vh), 0)
@@ -161,6 +182,7 @@ export default {
       background: #000000
       opacity: 0.8
       display: none
+      cursor: pointer
 
       &.active
         display: block

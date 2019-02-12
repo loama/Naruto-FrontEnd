@@ -36,6 +36,50 @@ export default {
     color: #2c3e50
     margin-top: 64px
 
+  table.infobox
+    float: right
+    width: 304px
+    background: #F0F0F0
+    margin: 16px
+    border: 1px solid #D0D0D0
+
+    .mainheader
+      .plainlinks
+        display: none
+
+      sup
+        display: none
+
+    th, td
+      border-bottom: 1px solid #D0D0D0
+      padding-bottom: 10px
+
+    th.mainheader
+      text-align: center
+      width: 100%
+
+      .ultisup-image-popup, .image-thumbnail
+        display: none
+
+    th:last-child
+      border-bottom: none
+
+    img[alt="Icon_-_Search.png"]
+      display: none
+
+    a
+      &:visited
+        color: red
+
+  .mainImage
+    position: absolute
+    top: 48px
+    right: 26px
+    width: 288px
+
+  #toc
+    display: none
+
   footer
     img
       height: 56px
