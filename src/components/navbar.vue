@@ -2,12 +2,13 @@
   <div class="navbar">
     <img alt="Naruto logo" src="../assets/logo.png">
     <span class="title"> Characters </span>
+    <input type="text" class="search" placeholder="search...">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'navbar',
   props: {
     msg: String
   }
@@ -40,4 +41,14 @@ export default {
       font-weight: 600
       letter-spacing: -1px
       color: #A0A0A0
+
+    input.search
+      position: absolute
+      top: 12px
+      right: 16px
+      height: 28px
+      border-radius: 8px
+      border: 1px solid #E0E0E0
+      padding: 0 8px
+      color: #4A4A4A
 </style>

@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <navbar />
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <charactersList msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
 import navbar from './components/navbar.vue'
-import HelloWorld from './components/HelloWorld.vue'
+import charactersList from './components/charactersList.vue'
 
 export default {
   name: 'app',
   components: {
     navbar,
-    HelloWorld
+    charactersList
   }
 }
 </script>
