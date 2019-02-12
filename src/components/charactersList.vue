@@ -1,18 +1,68 @@
 <template>
   <div class="charactersList">
-    hola
+    {{searchQuery}}
+    <ul>
+      <li v-on:click="openModal(c.title)"
+          v-for="c in characters"
+          v-bind:key="c.id">
+        {{c.title}}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
+const baseUrl = 'https://naruto-api-prod.herokuapp.com/v1/'
+
 export default {
   name: 'charactersList',
+  computed: {
+    searchQuery () {
+      return this.$store.state.searchQuery
+    }
+  },
+  data () {
+    return {
+      characters: [],
+      selectedCharacter: null
+    }
+  },
   props: {
     msg: String
+  },
+  methods: {
+    openModal (title) {
+      let encodedTitle = encodeURIComponent(title)
+      axios.get(baseUrl + 'characters/' + encodedTitle)
+        .then(function (response) {
+          console.log(response.data.data)
+          self.selectedCharacter = response.data.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    fetchCharacters () {
+      let self = this
+      axios.get(baseUrl + 'characters')
+        .then(function (response) {
+          self.characters = response.data.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  },
+  mounted () {
+    this.fetchCharacters()
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="sass" scoped>
+  ul
+    list-style: none
 </style>

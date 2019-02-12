@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <navbar />
-    <charactersList msg="Welcome to Your Vue.js App"/>
+    <charactersList searchQuery="searchQuery"/>
   </div>
 </template>
 

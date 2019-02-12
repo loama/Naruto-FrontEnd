@@ -2,7 +2,11 @@
   <div class="navbar">
     <img alt="Naruto logo" src="../assets/logo.png">
     <span class="title"> Characters </span>
-    <input type="text" class="search" placeholder="search...">
+    <input type="text"
+           class="search"
+           placeholder="search..."
+           v-model="query"
+           v-on:keyup="updateQuery()">
   </div>
 </template>
 
@@ -11,6 +15,16 @@ export default {
   name: 'navbar',
   props: {
     msg: String
+  },
+  data () {
+    return {
+      query: ''
+    }
+  },
+  methods: {
+    updateQuery () {
+      this.$store.commit('updateSearchQuery', this.query)
+    }
   }
 }
 </script>
@@ -25,6 +39,7 @@ export default {
     height: 56px
     width: 100vw
     border-bottom: 1px solid #E0E0E0
+    background: #FFFFFF
 
     img
       position: absolute
