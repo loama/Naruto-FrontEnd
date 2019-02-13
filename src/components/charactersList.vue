@@ -1,7 +1,5 @@
 <template>
   <div class="charactersList">
-    {{searchQuery}}
-
     <div id="characterModal"
          v-bind:class="{active: this.$route.query.character !== undefined}"
          v-html="selectedCharacter.html_content">
@@ -13,7 +11,8 @@
 
     <div class="section"
          v-bind:key="key"
-         v-for="(section, key) in characters">
+         v-if="section.length > 0"
+         v-for="(section, key) in filteredCharacters">
       <div class="title">{{key}}</div>
       <ul>
         <li v-on:click="openModal(c.title)"
@@ -41,10 +40,14 @@ export default {
       return this.$store.state.searchQuery
     },
     filteredCharacters () {
-      let characters = []
-      for (let i = 0; i < this.characters.length; i++) {
-        if (this.characters[i]['title'].includes(this.searchQuery)) {
-          characters.push(this.characters[i])
+      let characters = {}
+      let characterKeys = Object.keys(this.characters)
+      for (var i = 0; i < characterKeys.length; i++) {
+        characters[characterKeys[i]] = []
+        for (var j = 0; j < this.characters[characterKeys[i]].length; j++) {
+          if (this.characters[characterKeys[i]][j].title.toLowerCase().includes(this.searchQuery.toLowerCase())) {
+            characters[characterKeys[i]].push(this.characters[characterKeys[i]][j])
+          }
         }
       }
       return characters
@@ -106,7 +109,7 @@ export default {
 
           var imageLink
           if (images[2] !== undefined) {
-            imageLink = images[2].attributes['data-src'].nodeValue || ''
+            imageLink = images[2].attributes['data-src'].nodeValue
           } else {
             imageLink = ''
           }
@@ -163,7 +166,7 @@ export default {
       max-height: calc(100vh - 80px)
       overflow-y: scroll
       width: 80vw
-      max-width: 1000px
+      max-width: 640px
       background: #FFFFFF
       border: 1px solid #D0D0D0
       transition: all 0.2s
@@ -226,7 +229,7 @@ export default {
             top: 0
             left: 64px
 
-    @media screen and (min-width: 1250px)
+    @media screen and (min-width: 800px)
       #characterModal
-        left: calc(50vw - 500px)
+        left: calc(50vw - 320px)
 </style>
