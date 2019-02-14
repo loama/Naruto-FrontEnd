@@ -107,16 +107,10 @@ export default {
           var modal = document.getElementById('characterModal')
           var images = modal.getElementsByTagName('img')
 
-          var imageLink
-          if (images[2] !== undefined) {
-            imageLink = images[2].attributes['data-src'].nodeValue
-          } else {
-            imageLink = ''
-          }
-
-          self.selectedCharacter = {
-            thumbnail: response.data.data.thumbnail,
-            html_content: /* '<img src="' + imageLink + '" class="mainImage">' + */ response.data.data.html_content
+          for (var i = 0; i < images.length; i++) {
+            console.log(images[i])
+            images[i].attributes.id = 'modal-image' + i.toString()
+            images[i].attributes.src = 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=650&w=940'
           }
 
         })
@@ -170,7 +164,7 @@ export default {
       background: #FFFFFF
       border: 1px solid #D0D0D0
       transition: all 0.2s
-      padding-left: 16px
+      padding: 0 16px
 
       &.active
         transform: translate3d(0, calc(-100vh), 0)

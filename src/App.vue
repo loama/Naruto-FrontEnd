@@ -40,7 +40,7 @@ export default {
     float: right
     width: 304px
     background: #F0F0F0
-    margin: 16px
+    margin: 16px 0 16px 16px
     border: 1px solid #D0D0D0
 
     .mainheader
@@ -70,6 +70,29 @@ export default {
     a
       &:visited
         color: red
+
+  figure
+    float: right
+
+  h2
+    border-bottom: 1px solid #D0D0D0
+
+  a
+    color: #03A9F4
+    text-decoration: none
+
+    &:visited
+      color: #01579B
+
+  ol.references
+    text-align: left
+
+  ul.forum-discussions
+    text-align: left
+    padding-left: 0
+
+    img.forum-user-avatar
+      display: inline-block
 
   .mainImage
     position: absolute
